@@ -46,5 +46,12 @@
                 </x-primary-button>
             </div>
         </form>
+
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-600">
+            Acces administrateur :
+            <a href="/admin/login" class="font-semibold text-cyan-700 hover:text-cyan-800">connexion</a>
+            ou
+            <a href="/admin/register" class="font-semibold text-cyan-700 hover:text-cyan-800">inscription</a>.
+        </div>
     </div>
 </x-guest-layout>
