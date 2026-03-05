@@ -9,7 +9,11 @@ class PropertyController extends Controller
     public function index()
     {
         $properties = Property::latest()->paginate(9);
-        return view('properties.index', compact('properties'));
+        return view('properties.index', [
+            'properties' => $properties,
+            'isHome' => false,
+            'hasMoreProperties' => $properties->hasMorePages(),
+        ]);
     }
 
     public function show(Property $property)

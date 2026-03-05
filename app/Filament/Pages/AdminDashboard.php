@@ -11,4 +11,12 @@ class AdminDashboard extends Dashboard
     protected static ?string $navigationLabel = 'Dashboard';
 
     protected static ?string $navigationIcon = 'heroicon-o-chart-bar-square';
+
+    public function getColumns(): int | string | array
+    {
+        return [
+            'md' => 2,
+            'xl' => 2,
+        ];
+    }
 }

@@ -16,8 +16,14 @@ Route::get('/', function () {
         return redirect()->route('dashboard');
     }
 
-    $properties = Property::latest()->paginate(8);
-    return view('properties.index', compact('properties'));
+    $properties = Property::latest()->take(4)->get();
+    $hasMoreProperties = Property::count() > 4;
+
+    return view('properties.index', [
+        'properties' => $properties,
+        'isHome' => true,
+        'hasMoreProperties' => $hasMoreProperties,
+    ]);
 })->middleware('not_admin')->name('home');
 
 Route::middleware('not_admin')->group(function () {

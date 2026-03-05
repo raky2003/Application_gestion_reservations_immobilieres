@@ -1,7 +1,14 @@
 <x-app-layout>
+    @php
+        $isHome = $isHome ?? false;
+        $hasMoreProperties = $hasMoreProperties ?? false;
+    @endphp
+
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-slate-800 leading-tight">Catalogue</h2>
+            <h2 class="font-semibold text-xl text-slate-800 leading-tight">
+                {{ $isHome ? 'Accueil' : 'Catalogue' }}
+            </h2>
 
             @auth
                 <a href="{{ route('dashboard') }}" class="text-sm text-cyan-700 hover:text-cyan-800 font-semibold">
@@ -34,9 +41,15 @@
         <section class="fade-up">
             <div id="catalogue" class="flex flex-wrap items-center justify-between gap-4 mb-5">
                 <h2 class="text-2xl font-bold text-slate-900">Biens disponibles</h2>
-                <a href="{{ route('properties.index') }}" class="text-sm text-cyan-700 font-semibold hover:text-cyan-800">
-                    Rafraichir
-                </a>
+                @if ($isHome)
+                    <a href="{{ route('properties.index') }}#catalogue" class="text-sm text-cyan-700 font-semibold hover:text-cyan-800">
+                        Voir tout le catalogue
+                    </a>
+                @else
+                    <a href="{{ route('properties.index') }}" class="text-sm text-cyan-700 font-semibold hover:text-cyan-800">
+                        Rafraichir
+                    </a>
+                @endif
             </div>
 
             @if($properties->count() === 0)
@@ -65,9 +78,19 @@
                     @endforeach
                 </div>
 
-                <div class="mt-8">
-                    {{ $properties->links() }}
-                </div>
+                @if ($isHome)
+                    @if ($hasMoreProperties)
+                        <div class="mt-8 text-center">
+                            <a href="{{ route('properties.index') }}#catalogue" class="btn-primary">
+                                Voir plus
+                            </a>
+                        </div>
+                    @endif
+                @else
+                    <div class="mt-8">
+                        {{ $properties->links() }}
+                    </div>
+                @endif
             @endif
         </section>
     </div>
