@@ -9,17 +9,23 @@ use App\Models\Property;
 
 Route::get('/', function () {
     if (auth()->check()) {
+        if (auth()->user()->role === 'admin') {
+            return redirect('/admin');
+        }
+
         return redirect()->route('dashboard');
     }
 
     $properties = Property::latest()->paginate(8);
     return view('properties.index', compact('properties'));
-})->name('home');
+})->middleware('not_admin')->name('home');
 
-Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
-Route::get('/properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
+Route::middleware('not_admin')->group(function () {
+    Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
+    Route::get('/properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
+});
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'client'])->group(function () {
     Route::get('/dashboard', function () {
         $properties = Property::latest()->take(4)->get();
         return view('dashboard', compact('properties'));
