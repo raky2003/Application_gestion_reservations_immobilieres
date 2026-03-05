@@ -1,22 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="page-shell space-y-6">
+    <a href="{{ route('properties.index') }}#catalogue" class="text-sm text-cyan-700 font-semibold hover:text-cyan-800">
+        <- Retour au catalogue
+    </a>
 
-    <a href="{{ route('home') }}" class="text-sm text-gray-600 hover:underline">← Retour</a>
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <section class="xl:col-span-2 glass-card p-6 sm:p-8 fade-up">
+            <div class="h-60 sm:h-72 rounded-2xl bg-gradient-to-br from-cyan-100 via-blue-50 to-teal-100"></div>
 
-    <div class="mt-4 bg-white rounded-xl shadow p-6">
-        <h1 class="text-2xl font-bold">{{ $property->name }}</h1>
-        <p class="mt-3 text-gray-700">{{ $property->description }}</p>
+            <h1 class="mt-6 text-3xl font-bold text-slate-900">{{ $property->name }}</h1>
+            <p class="mt-4 text-slate-700 leading-relaxed">{{ $property->description }}</p>
 
-        <div class="mt-4 text-indigo-700 font-bold">
-            {{ number_format($property->price_per_night, 2) }} € / nuit
-        </div>
+            <div class="mt-6 inline-flex items-center px-4 py-2 rounded-xl bg-cyan-50 text-cyan-800 font-bold">
+                {{ number_format($property->price_per_night, 2, ',', ' ') }} EUR / nuit
+            </div>
+        </section>
+
+        <aside class="xl:col-span-1 fade-up">
+            @livewire('booking-manager', ['property' => $property])
+        </aside>
     </div>
-
-    <div class="mt-6">
-        @livewire('booking-manager', ['property' => $property])
-    </div>
-
 </div>
 @endsection

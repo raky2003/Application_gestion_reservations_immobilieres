@@ -1,39 +1,39 @@
-<div class="bg-white rounded-xl shadow p-6">
-    <h3 class="text-lg font-semibold mb-4">Réserver ce bien</h3>
+<div class="glass-card p-6 sm:p-7">
+    <h3 class="text-xl font-bold text-slate-900">Reserver ce bien</h3>
+    <p class="mt-1 text-sm text-slate-600">Choisis tes dates et confirme instantanement.</p>
 
     @if (session()->has('success'))
-        <div class="mb-4 p-3 rounded bg-green-50 text-green-700">
+        <div class="mt-4 p-3 rounded-xl bg-emerald-50 text-emerald-700 text-sm">
             {{ session('success') }}
         </div>
     @endif
 
     @guest
-        <div class="p-3 rounded bg-yellow-50 text-yellow-800">
-            Vous devez être connecté pour réserver.
+        <div class="mt-4 p-4 rounded-xl bg-amber-50 text-amber-800 text-sm">
+            Tu dois etre connecte pour reserver.
             <a class="underline font-semibold" href="{{ route('login') }}">Se connecter</a>
         </div>
     @endguest
 
     @auth
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="mt-5 space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Date début</label>
+                <label class="block text-sm font-medium text-slate-700">Date debut</label>
                 <input type="date" wire:model="start_date"
-                       class="mt-1 w-full rounded border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                       class="mt-1 w-full rounded-xl border-slate-300 focus:border-cyan-500 focus:ring-cyan-500">
                 @error('start_date') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700">Date fin</label>
+                <label class="block text-sm font-medium text-slate-700">Date fin</label>
                 <input type="date" wire:model="end_date"
-                       class="mt-1 w-full rounded border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                       class="mt-1 w-full rounded-xl border-slate-300 focus:border-cyan-500 focus:ring-cyan-500">
                 @error('end_date') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
             </div>
         </div>
 
-        <button wire:click="save"
-                class="mt-5 inline-flex items-center justify-center px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition">
-            Confirmer la réservation
+        <button wire:click="save" class="btn-primary w-full mt-6">
+            Confirmer la reservation
         </button>
     @endauth
 </div>

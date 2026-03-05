@@ -1,64 +1,57 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Dashboard
+        <h2 class="font-semibold text-xl text-slate-800 leading-tight">
+            Dashboard client
         </h2>
     </x-slot>
 
-    <div class="py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="page-shell space-y-8">
+        <section class="glass-card p-8 sm:p-10 relative overflow-hidden fade-up">
+            <div class="absolute -top-12 -right-12 w-44 h-44 bg-cyan-300/30 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-12 -left-12 w-44 h-44 bg-teal-300/30 rounded-full blur-2xl"></div>
+
+            <div class="relative flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Bienvenue, {{ Auth::user()->name }} 👋</h1>
-                    <p class="text-gray-600 mt-1">Accède au catalogue, réserve et consulte tes réservations.</p>
+                    <p class="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-700">espace client</p>
+                    <h1 class="mt-2 section-title">Bienvenue, {{ Auth::user()->name }}</h1>
+                    <p class="mt-2 subtle-text">Gere rapidement ton parcours: catalogue, reservations, profil.</p>
                 </div>
 
                 <div class="flex flex-wrap gap-3">
-                    <a href="{{ route('home') }}#catalogue"
-                       class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700">
-                        Réserver un logement
+                    <a href="{{ route('properties.index') }}#catalogue" class="btn-primary">
+                        Voir catalogue
                     </a>
-
-                    <a href="{{ route('bookings.mine') }}"
-                       class="px-4 py-2 rounded-xl bg-white border border-gray-200 text-gray-800 font-semibold hover:bg-gray-50">
-                        Mes réservations
+                    <a href="{{ route('bookings.mine') }}" class="btn-soft">
+                        Mes reservations
                     </a>
-
-                    <a href="{{ route('profile.edit') }}"
-                       class="px-4 py-2 rounded-xl bg-white border border-gray-200 text-gray-800 font-semibold hover:bg-gray-50">
+                    <a href="{{ route('profile.edit') }}" class="btn-soft">
                         Mon profil
                     </a>
                 </div>
             </div>
+        </section>
 
-            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <div class="text-sm text-gray-500">Action</div>
-                    <div class="mt-1 text-lg font-semibold">Réserver</div>
-                    <p class="text-gray-600 text-sm mt-2">Accède au catalogue et réserve un bien.</p>
-                    <a href="{{ route('home') }}#catalogue" class="inline-block mt-4 text-indigo-700 font-semibold hover:underline">
-                        Aller au catalogue →
-                    </a>
-                </div>
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-5 fade-up">
+            <a href="{{ route('properties.index') }}#catalogue" class="glass-card p-6 hover-lift">
+                <p class="text-sm font-medium text-cyan-700">Action</p>
+                <h3 class="mt-2 text-xl font-bold text-slate-900">Decouvrir le catalogue</h3>
+                <p class="mt-2 subtle-text">Parcours les logements et lance une reservation en quelques clics.</p>
+                <span class="mt-4 inline-block text-cyan-700 font-semibold">Voir catalogue -></span>
+            </a>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <div class="text-sm text-gray-500">Suivi</div>
-                    <div class="mt-1 text-lg font-semibold">Mes réservations</div>
-                    <p class="text-gray-600 text-sm mt-2">Consulte toutes tes réservations.</p>
-                    <a href="{{ route('bookings.mine') }}" class="inline-block mt-4 text-indigo-700 font-semibold hover:underline">
-                        Voir mes réservations →
-                    </a>
-                </div>
+            <a href="{{ route('bookings.mine') }}" class="glass-card p-6 hover-lift">
+                <p class="text-sm font-medium text-cyan-700">Suivi</p>
+                <h3 class="mt-2 text-xl font-bold text-slate-900">Mes reservations</h3>
+                <p class="mt-2 subtle-text">Consulte l'historique et les details de tes sejours.</p>
+                <span class="mt-4 inline-block text-cyan-700 font-semibold">Voir reservations -></span>
+            </a>
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <div class="text-sm text-gray-500">Compte</div>
-                    <div class="mt-1 text-lg font-semibold">Profil</div>
-                    <p class="text-gray-600 text-sm mt-2">Modifie ton nom, email et mot de passe.</p>
-                    <a href="{{ route('profile.edit') }}" class="inline-block mt-4 text-indigo-700 font-semibold hover:underline">
-                        Modifier mon profil →
-                    </a>
-                </div>
-            </div>
-        </div>
+            <a href="{{ route('profile.edit') }}" class="glass-card p-6 hover-lift">
+                <p class="text-sm font-medium text-cyan-700">Compte</p>
+                <h3 class="mt-2 text-xl font-bold text-slate-900">Mon profil</h3>
+                <p class="mt-2 subtle-text">Mets a jour tes informations personnelles en toute securite.</p>
+                <span class="mt-4 inline-block text-cyan-700 font-semibold">Modifier profil -></span>
+            </a>
+        </section>
     </div>
 </x-app-layout>

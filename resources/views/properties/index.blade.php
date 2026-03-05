@@ -1,123 +1,74 @@
 <x-app-layout>
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Accueil
-            </h2>
-
-            @guest
-                <div class="flex gap-3">
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 hover:text-gray-900 underline">
-                        Connexion
-                    </a>
-                    <a href="{{ route('register') }}" class="text-sm text-gray-700 hover:text-gray-900 underline">
-                        Inscription
-                    </a>
-                </div>
-            @endguest
+            <h2 class="font-semibold text-xl text-slate-800 leading-tight">Catalogue</h2>
 
             @auth
-                <a href="{{ route('dashboard') }}" class="text-sm text-blue-600 hover:underline">
-                    Aller au dashboard
+                <a href="{{ route('dashboard') }}" class="text-sm text-cyan-700 hover:text-cyan-800 font-semibold">
+                    Retour dashboard
                 </a>
             @endauth
         </div>
     </x-slot>
 
-    <div class="py-10">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            <!-- HERO / BIENVENUE -->
-            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-10 text-white shadow mb-10">
-                @guest
-                    <h1 class="text-4xl font-bold">Bienvenue 👋</h1>
-                    <p class="mt-3 text-white/90 text-lg max-w-2xl">
-                        Découvrez des propriétés exclusives et réservez en quelques clics.
-                        Connectez-vous ou créez un compte pour gérer vos réservations.
+    <div class="page-shell space-y-8">
+        <section class="glass-card p-8 sm:p-10 fade-up">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5">
+                <div>
+                    <p class="text-xs uppercase tracking-[0.2em] font-semibold text-cyan-700">catalogue premium</p>
+                    <h1 class="mt-2 section-title">Trouve ton prochain logement</h1>
+                    <p class="mt-3 max-w-3xl subtle-text">
+                        Selection de biens avec reservation immediate, suivi clair et parcours fluide.
                     </p>
+                </div>
 
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <a href="{{ route('register') }}"
-                           class="px-5 py-3 bg-white text-blue-700 font-semibold rounded-xl hover:bg-white/90">
-                            Créer un compte
-                        </a>
-                        <a href="{{ route('login') }}"
-                           class="px-5 py-3 bg-blue-900/30 border border-white/30 text-white font-semibold rounded-xl hover:bg-blue-900/40">
-                            Se connecter
-                        </a>
+                @guest
+                    <div class="flex flex-wrap gap-3">
+                        <a href="{{ route('register') }}" class="btn-primary">Creer un compte</a>
+                        <a href="{{ route('login') }}" class="btn-soft">Se connecter</a>
                     </div>
                 @endguest
-
-                @auth
-                    <h1 class="text-4xl font-bold">Bienvenue, {{ auth()->user()->name }} 👋</h1>
-                    <p class="mt-3 text-white/90 text-lg max-w-2xl">
-                        Réservez facilement des propriétés partout dans le monde. Simple, rapide et sécurisé.
-                    </p>
-
-                    <div class="mt-6 flex flex-wrap gap-3">
-                        <a href="{{ route('dashboard') }}"
-                           class="px-5 py-3 bg-white text-blue-700 font-semibold rounded-xl hover:bg-white/90">
-                            Aller au dashboard
-                        </a>
-                        <a href="{{ route('bookings.mine') }}"
-                           class="px-5 py-3 bg-blue-900/30 border border-white/30 text-white font-semibold rounded-xl hover:bg-blue-900/40">
-                            Mes réservations
-                        </a>
-                    </div>
-                @endauth
             </div>
+        </section>
 
-            <!-- SECTION "QUI SOMMES-NOUS" -->
-            <div class="bg-white rounded-2xl shadow p-8 mb-10">
-                <h2 class="text-xl font-bold text-gray-800">Qui sommes-nous ?</h2>
-                <p class="mt-3 text-gray-600">
-                    Nous sommes une plateforme spécialisée dans la gestion et la réservation de biens immobiliers.
-                    Notre mission est de simplifier l’expérience de location grâce à une interface fluide, moderne et sécurisée.
-                </p>
-            </div>
-
-            <!-- CATALOGUE -->
-            <div id="catalogue" class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-gray-800">Propriétés disponibles</h2>
-                <a href="{{ route('home') }}" class="text-sm text-blue-600 hover:underline">
-                    Rafraîchir
+        <section class="fade-up">
+            <div id="catalogue" class="flex flex-wrap items-center justify-between gap-4 mb-5">
+                <h2 class="text-2xl font-bold text-slate-900">Biens disponibles</h2>
+                <a href="{{ route('properties.index') }}" class="text-sm text-cyan-700 font-semibold hover:text-cyan-800">
+                    Rafraichir
                 </a>
             </div>
 
             @if($properties->count() === 0)
-                <div class="bg-white p-6 rounded-xl shadow">
-                    Aucune propriété disponible pour le moment.
+                <div class="glass-card p-8 text-slate-600">
+                    Aucun bien disponible pour le moment.
                 </div>
             @else
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                     @foreach($properties as $property)
-                        <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden">
-                            <div class="p-5">
-                                <h3 class="text-lg font-semibold text-gray-900">{{ $property->name }}</h3>
-                                <p class="text-sm text-gray-600 mt-2 line-clamp-2">
-                                    {{ $property->description }}
-                                </p>
+                        <article class="glass-card p-5 hover-lift">
+                            <div class="h-32 rounded-2xl bg-gradient-to-br from-cyan-100 via-blue-50 to-teal-100 mb-5"></div>
 
-                                <div class="mt-4 flex items-center justify-between">
-                                    <div class="text-blue-600 font-bold">
-                                        {{ number_format($property->price_per_night, 2, ',', ' ') }} € / nuit
-                                    </div>
+                            <h3 class="text-lg font-bold text-slate-900 leading-tight">{{ $property->name }}</h3>
+                            <p class="text-sm text-slate-600 mt-2 line-clamp-3">{{ $property->description }}</p>
 
-                                    <a href="{{ route('properties.show', $property) }}"
-                                       class="px-4 py-2 bg-blue-600 text-white text-sm rounded-xl hover:bg-blue-700">
-                                        Réserver
-                                    </a>
+                            <div class="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                                <div class="text-cyan-700 font-bold">
+                                    {{ number_format($property->price_per_night, 2, ',', ' ') }} EUR / nuit
                                 </div>
+
+                                <a href="{{ route('properties.show', $property) }}" class="btn-primary !px-4 !py-2 !text-sm">
+                                    Reserver
+                                </a>
                             </div>
-                        </div>
+                        </article>
                     @endforeach
                 </div>
 
-                <div class="mt-6">
+                <div class="mt-8">
                     {{ $properties->links() }}
                 </div>
             @endif
-
-        </div>
+        </section>
     </div>
 </x-app-layout>
