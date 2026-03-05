@@ -18,7 +18,7 @@
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-gray-100 flex flex-col">
             @include('layouts.navigation')
 
             @if (isset($header))
@@ -29,13 +29,15 @@
                 </header>
             @endif
 
-            <main>
+            <main class="flex-1">
                 @isset($slot)
                     {{ $slot }}
                 @endisset
 
                 @yield('content')
             </main>
+
+            @include('layouts.footer')
         </div>
 
         {{-- Livewire --}}

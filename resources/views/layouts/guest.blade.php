@@ -12,11 +12,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-slate-900 antialiased">
-        <div class="min-h-screen relative overflow-hidden bg-slate-50">
+        <div class="min-h-screen relative overflow-hidden bg-slate-50 flex flex-col">
             <div class="absolute -top-20 -left-20 w-72 h-72 bg-cyan-300/30 rounded-full blur-3xl"></div>
             <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-teal-300/30 rounded-full blur-3xl"></div>
 
-            <div class="relative min-h-screen flex items-center justify-center p-4 sm:p-6">
+            <div class="relative flex-1 flex items-center justify-center p-4 sm:p-6">
                 <div class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="hidden lg:flex flex-col justify-between glass-card p-8">
                         <div>
@@ -44,6 +44,10 @@
                         {{ $slot }}
                     </div>
                 </div>
+            </div>
+
+            <div class="relative">
+                @include('layouts.footer')
             </div>
         </div>
     </body>

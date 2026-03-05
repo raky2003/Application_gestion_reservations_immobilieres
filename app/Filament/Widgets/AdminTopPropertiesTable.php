@@ -16,11 +16,11 @@ class AdminTopPropertiesTable extends TableWidget
     public function table(Table $table): Table
     {
         return $table
-            ->heading('Biens les plus reserves')
+            ->heading('Toutes les proprietes')
             ->query(
                 Property::query()
                     ->withCount('bookings')
-                    ->orderByDesc('bookings_count')
+                    ->latest()
             )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
@@ -33,13 +33,13 @@ class AdminTopPropertiesTable extends TableWidget
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('bookings_count')
-                    ->label('Total reservations')
+                    ->label('Reservations')
                     ->badge()
                     ->color('success')
                     ->sortable(),
             ])
-            ->paginated([5])
-            ->defaultPaginationPageOption(5)
+            ->paginated([8, 16, 24])
+            ->defaultPaginationPageOption(8)
             ->emptyStateHeading('Aucun bien disponible');
     }
 }
