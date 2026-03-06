@@ -1,66 +1,196 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# StayEasy - Plateforme de reservation de proprietes (Laravel)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Application web de reservation de logements avec deux espaces distincts:
+- `Client`: consultation du catalogue, reservation de sejours, suivi des reservations, gestion du profil.
+- `Admin`: gestion des proprietes, reservations, utilisateurs et suivi via un dashboard Filament.
 
-## About Laravel
+## Sommaire
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. [Vue d'ensemble](#vue-densemble)
+2. [Fonctionnalites](#fonctionnalites)
+3. [Stack technique](#stack-technique)
+4. [Architecture et roles](#architecture-et-roles)
+5. [Installation](#installation)
+6. [Lancement du projet](#lancement-du-projet)
+7. [Parcours applicatif avec captures d'ecran](#parcours-applicatif-avec-captures-decran)
+8. [Structure des donnees](#structure-des-donnees)
+9. [Tests](#tests)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Vue d'ensemble
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Le projet est base sur Laravel 10, avec:
+- une interface publique/client en Blade + Tailwind + Livewire,
+- un back-office admin avec Filament v3,
+- une logique de roles (`client` / `admin`) pour separer les acces.
 
-## Learning Laravel
+## Fonctionnalites
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Cote client
+- Affichage d'une page d'accueil avec une selection de proprietes.
+- Consultation du catalogue complet.
+- Consultation du detail d'un bien.
+- Reservation d'un bien via un composant Livewire.
+- Verification de conflit de dates (anti-double-reservation).
+- Tableau "Mes reservations".
+- Gestion du profil (infos, mot de passe, suppression du compte).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Cote admin
+- Authentification dediee au panel Filament (`/admin`).
+- Dashboard avec:
+  - statistiques globales,
+  - evolution des reservations (graphique),
+  - reservations a venir,
+  - liste des proprietes.
+- CRUD des proprietes.
+- CRUD des reservations.
+- CRUD des utilisateurs (avec role `admin` / `client`).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Stack technique
 
-## Laravel Sponsors
+- `PHP 8.1+`
+- `Laravel 10`
+- `Laravel Breeze` (auth)
+- `Livewire 3`
+- `Filament 3.3`
+- `Tailwind CSS 3`
+- `Vite`
+- Base de donnees SQL (MySQL/MariaDB recommande)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Architecture et roles
 
-### Premium Partners
+- Champ `role` ajoute dans la table `users` (`client` par defaut).
+- Middleware `client`: bloque l'acces client pour les admins.
+- Middleware `not_admin`: evite l'acces admin aux pages publiques/client.
+- Les admins accedent au panel Filament uniquement si `role = admin`.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Routes principales:
+- `/` : accueil (ou redirection selon le role)
+- `/properties` : catalogue
+- `/properties/{property}` : detail + reservation
+- `/dashboard` : dashboard client
+- `/mes-reservations` : reservations du client connecte
+- `/admin` : panel admin Filament
 
-## Contributing
+## Installation
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Cloner le projet.
+2. Installer les dependances PHP et front.
+3. Copier le fichier d'environnement.
+4. Configurer la base de donnees dans `.env`:
+- `DB_CONNECTION`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
+5. Generer la cle d'application.
+6. Executer les migrations.
 
-## Code of Conduct
+## Lancement du projet
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Lancer le serveur d'application Laravel et le processus de build front en mode developpement.
 
-## Security Vulnerabilities
+Acces:
+- Front/client: `http://127.0.0.1:8000`
+- Admin Filament: `http://127.0.0.1:8000/admin`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Parcours applicatif avec captures d'ecran
 
-## License
+## 1) Decouverte du site (visiteur)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Page d'accueil:
+
+![Page d'accueil](screen/page-accueil.png)
+
+Vue d'ensemble des proprietes disponibles:
+
+![Ensemble proprietes](screen/ensembleProprites.png)
+
+## 2) Authentification client
+
+Inscription client:
+
+![Interface inscription client](screen/interfaceINSCRIPTION.png)
+
+Connexion client:
+
+![Interface connexion client](screen/interfaceconnexioncotclient.png)
+
+## 3) Espace client
+
+Dashboard client:
+
+![Dashboard client](screen/dasbordclient.png)
+
+Profil client:
+
+![Profil client](screen/profilcoteclient.png)
+
+Reservation depuis la fiche d'un bien:
+
+![Reservation cote client](screen/reservercoteclients.png)
+
+Creation d'une reservation:
+
+![Creation reservation](screen/creationreservtion.png)
+
+Suivi des reservations client:
+
+![Reservations client](screen/reservationclient.png)
+
+## 4) Authentification et dashboard admin
+
+Connexion admin (Filament):
+
+![Connexion admin](screen/interfacedeonnexionsAdmin.png)
+
+Dashboard admin - vue principale:
+
+![Dashboard admin](screen/dasbordAdmin.png)
+
+Dashboard admin - suite 1:
+
+![Dashboard admin suite 1](screen/dasbordAdminsuit1.png)
+
+Dashboard admin - suite 2:
+
+![Dashboard admin suite 2](screen/dasbordAdminsuit2.png)
+
+## 5) Gestion admin (CRUD)
+
+Creation d'une propriete:
+
+![Creation propriete admin](screen/creationProprite.png)
+
+Vue de toutes les reservations:
+
+![Toutes les reservations admin](screen/vudetouteslesrerservation.png)
+
+Vue de tous les utilisateurs:
+
+![Tous les utilisateurs admin](screen/vuedetouteslesutilisateurscoteAdmin.png)
+
+Creation d'un utilisateur cote admin:
+
+![Creation utilisateur admin](screen/creerutilsateurcoteAdmin.png)
+
+## Structure des donnees
+
+Tables metier principales:
+- `users` : informations utilisateur + `role` (`client` ou `admin`)
+- `properties` : biens (`name`, `description`, `price_per_night`)
+- `bookings` : reservations (`user_id`, `property_id`, `start_date`, `end_date`)
+
+Relations:
+- Un `User` possede plusieurs `Booking`.
+- Une `Property` possede plusieurs `Booking`.
+- Un `Booking` appartient a un `User` et a une `Property`.
+
+## Tests
+
+Executer la suite de tests du projet pour verifier le bon fonctionnement global.
+
+---
+
+Projet realise avec Laravel + Livewire + Filament pour une separation claire entre l'experience client et l'administration.
+
