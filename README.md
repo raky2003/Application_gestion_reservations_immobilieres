@@ -10,11 +10,8 @@ Application web de reservation de logements avec deux espaces distincts:
 2. [Fonctionnalites](#fonctionnalites)
 3. [Stack technique](#stack-technique)
 4. [Architecture et roles](#architecture-et-roles)
-5. [Installation](#installation)
-6. [Lancement du projet](#lancement-du-projet)
-7. [Parcours applicatif avec captures d'ecran](#parcours-applicatif-avec-captures-decran)
-8. [Structure des donnees](#structure-des-donnees)
-9. [Tests](#tests)
+5. [Parcours applicatif avec captures d'ecran](#parcours-applicatif-avec-captures-decran)
+6. [Structure des donnees](#structure-des-donnees)
 
 ## Vue d'ensemble
 
@@ -70,29 +67,6 @@ Routes principales:
 - `/dashboard` : dashboard client
 - `/mes-reservations` : reservations du client connecte
 - `/admin` : panel admin Filament
-
-## Installation
-
-1. Cloner le projet.
-2. Installer les dependances PHP et front.
-3. Copier le fichier d'environnement.
-4. Configurer la base de donnees dans `.env`:
-- `DB_CONNECTION`
-- `DB_HOST`
-- `DB_PORT`
-- `DB_DATABASE`
-- `DB_USERNAME`
-- `DB_PASSWORD`
-5. Generer la cle d'application.
-6. Executer les migrations.
-
-## Lancement du projet
-
-Lancer le serveur d'application Laravel et le processus de build front en mode developpement.
-
-Acces:
-- Front/client: `http://127.0.0.1:8000`
-- Admin Filament: `http://127.0.0.1:8000/admin`
 
 ## Parcours applicatif avec captures d'ecran
 
@@ -185,10 +159,6 @@ Relations:
 - Un `User` possede plusieurs `Booking`.
 - Une `Property` possede plusieurs `Booking`.
 - Un `Booking` appartient a un `User` et a une `Property`.
-
-## Tests
-
-Executer la suite de tests du projet pour verifier le bon fonctionnement global.
 
 ---
 
